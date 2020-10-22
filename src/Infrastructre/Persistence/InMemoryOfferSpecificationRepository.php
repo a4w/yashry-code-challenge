@@ -13,6 +13,11 @@ class InMemoryOfferSpecificationRepository implements IOfferSpecificationReposit
     /** @var IOfferSpecification[]  */
     private array $data;
 
+    public function __construct()
+    {
+        $this->data = [];
+    }
+
     /**
      * @return IOfferSpecification[]
      */
