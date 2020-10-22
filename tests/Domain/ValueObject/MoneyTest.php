@@ -24,12 +24,12 @@ class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function differentCurrenciesCantBeAdded()
+    public function differentCurrenciesCanBeAdded()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $a = new Money(new Currency('EUR', 'E', 1.3), 10);
+        $a = new Money($this->createCurrency('EGP', 'LE', 0.05), 20);
         $b = new Money($this->createCurrency(), 20.0);
-        $a->add($b);
+        $sum = $b->add($a);
+        $this->assertSame(21.0, $sum->getValue());
     }
 
     /**

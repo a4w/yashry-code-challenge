@@ -59,10 +59,8 @@ class Money
     }
 
     public function add(Money $money){
-        if($this->currency != $money->currency){
-            throw new InvalidArgumentException('Cannot add money with different currencies');
-        }
-        return new self($this->currency, $money->getValue() + $this->getValue());
+        $converted = $money->convertTo($this->getCurrency());
+        return new self($this->currency, $converted->getValue() + $this->getValue());
     }
 
     public function convertTo(Currency $currency){
