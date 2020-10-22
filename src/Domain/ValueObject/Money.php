@@ -63,6 +63,11 @@ class Money
         return new self($this->currency, $converted->getValue() + $this->getValue());
     }
 
+    public function subtract(Money $money){
+        $converted = $money->convertTo($this->getCurrency());
+        return new self($this->currency, abs($converted->getValue() - $this->getValue()));
+    }
+
     public function convertTo(Currency $currency){
         $value = $this->getValue() * $this->getCurrency()->getUsdEquivalent();
         $new_value = $value / $currency->getUsdEquivalent();
