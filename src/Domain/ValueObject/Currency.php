@@ -81,4 +81,8 @@ class Currency
         return $this->usd_equivalent;
     }
 
+    public function equals(Currency $currency): Bool{
+        return $this->getCurrencyCode() === $currency->getCurrencyCode();
+    }
+
 }

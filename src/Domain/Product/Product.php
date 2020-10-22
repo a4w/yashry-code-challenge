@@ -68,4 +68,9 @@ class Product
         return $calculator->calculate($this->getPrice());
     }
 
+    public function equals(Product $product){
+        // I'm assuming the title is the unique identifier for this business
+        return $this->getTitle() === $product->getTitle();
+    }
+
 }

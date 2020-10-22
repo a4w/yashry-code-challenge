@@ -69,4 +69,8 @@ class Money
         return new self($currency, $new_value);
     }
 
+    public function equals(Money $money): Bool{
+        return $this->getValue() === $money->getValue() && $this->getCurrency()->equals($money->getCurrency());
+    }
+
 }

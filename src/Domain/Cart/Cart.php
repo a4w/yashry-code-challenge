@@ -42,7 +42,7 @@ class Cart
     {
         $exists = false;
         foreach ($this->items as &$item) {
-            if($item->getProduct() == $product){
+            if($item->getProduct()->equals($product)){
                 $item->increaseQuantity();
                 $exists = true;
             }
