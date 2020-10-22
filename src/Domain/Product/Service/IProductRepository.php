@@ -8,5 +8,6 @@ use Yashry\Domain\Product\Product;
 
 interface IProductRepository
 {
-    public function findByName(String $name): Product;
+    public function findByTitle(String $name): ?Product;
+    public function save(Product $product);
 }
