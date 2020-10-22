@@ -12,7 +12,7 @@ use Yashry\Domain\Offer\Service\IOfferSpecificationRepository;
 use Yashry\Domain\Product\Service\IProductRepository;
 use Yashry\Domain\Product\Service\ITaxCalculator;
 
-class CreateCartFromProducts
+class CreateCartFromProducts implements ICreateCartFromProducts
 {
     private IProductRepository $product_repository;
     private IOfferSpecificationRepository $offer_specification_repository;
