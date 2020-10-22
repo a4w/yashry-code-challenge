@@ -16,7 +16,7 @@ class Currency
      * @param String $symbol
      * @param Float $usd_equivalent
      */
-    public function __construct(string $currency_code, string $symbol, float $usd_equivalent)
+    public function __construct(string $currency_code = 'USD', string $symbol = '$', float $usd_equivalent = 1)
     {
         $this->setCurrencyCode($currency_code);
         $this->setSymbol($symbol);
