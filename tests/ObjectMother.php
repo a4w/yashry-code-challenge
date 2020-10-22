@@ -3,6 +3,7 @@
 namespace Yashry;
 
 use Yashry\Domain\Product\Product;
+use Yashry\Domain\Product\Service\ITaxCalculator;
 use Yashry\Domain\ValueObject\Currency;
 use Yashry\Domain\ValueObject\Money;
 
@@ -26,4 +27,19 @@ class ObjectMother
         return new Product($title, $price);
     }
 
+    public static function constantTaxCalculator($value = 1): ITaxCalculator{
+        return new ConstantTaxCalculator($value);
+    }
+
+}
+
+class ConstantTaxCalculator implements ITaxCalculator{
+    private Float $tax;
+    public function __construct(Float $value){
+        $this->tax = $value;
+    }
+    public function calculate(Product $for): Money
+    {
+        return new Money($for->getPrice()->getCurrency(), $this->tax);
+    }
 }

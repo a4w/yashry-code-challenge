@@ -4,8 +4,6 @@ namespace Yashry\Domain\Cart;
 
 use PHPUnit\Framework\TestCase;
 use Yashry\Domain\Offer\Service\IOfferSpecification;
-use Yashry\Domain\Product\Product;
-use Yashry\Domain\Product\Service\ITaxCalculator;
 use Yashry\Domain\ValueObject\Money;
 use Yashry\ObjectMother;
 
@@ -54,7 +52,7 @@ class CartTest extends TestCase
         $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
         $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
         $cart->addProduct(ObjectMother::product('Shorts', ObjectMother::money(null, 30)));
-        $taxes = $cart->getTaxesTotal(new ConstantTaxCalculator(10));
+        $taxes = $cart->getTaxesTotal(ObjectMother::constantTaxCalculator(10));
         $this->assertSame(30.0, $taxes->getValue());
     }
 
@@ -98,7 +96,7 @@ class CartTest extends TestCase
         $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
         $cart->addProduct(ObjectMother::product('Shorts', ObjectMother::money(null, 30)));
         $offers = [new ConstantOffer(ObjectMother::money(null, 5))];
-        $tax_calculator = new ConstantTaxCalculator(10);
+        $tax_calculator = ObjectMother::constantTaxCalculator(10);
         // 50 + 30 taxes - 5 offer
         $total = $cart->getTotal($tax_calculator, $offers);
         $this->assertTrue($total->equals(ObjectMother::money(null, 75)));
@@ -107,16 +105,6 @@ class CartTest extends TestCase
 
 }
 
-class ConstantTaxCalculator implements ITaxCalculator{
-    private Float $tax;
-    public function __construct(Float $value){
-        $this->tax = $value;
-    }
-    public function calculate(Product $for): Money
-    {
-        return new Money($for->getPrice()->getCurrency(), $this->tax);
-    }
-}
 
 class ConstantOffer implements IOfferSpecification{
 
