@@ -33,11 +33,11 @@ class ObjectMother
         return new ConstantTaxCalculator($value);
     }
 
-    public static function constantOffer(Money $amount = null): IOfferSpecification{
+    public static function constantOffer(Money $amount = null, String $name = "Constant offer"): IOfferSpecification{
         if($amount === null){
             $amount = self::money();
         }
-        return new ConstantOffer($amount);
+        return new ConstantOffer($amount, $name);
     }
 
 }
@@ -56,8 +56,10 @@ class ConstantTaxCalculator implements ITaxCalculator{
 class ConstantOffer implements IOfferSpecification{
 
     private Money $value;
-    public function __construct(Money $value){
+    private String $name;
+    public function __construct(Money $value, String $name = "Constant offer"){
         $this->value = $value;
+        $this->name = $name;
     }
 
     public function isValidFor(Cart $cart): bool
@@ -72,6 +74,6 @@ class ConstantOffer implements IOfferSpecification{
 
     public function getOfferName(): string
     {
-        return "";
+        return $this->name;
     }
 }
