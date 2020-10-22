@@ -65,7 +65,7 @@ class CartTest extends TestCase
         $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
         $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
         $cart->addProduct(ObjectMother::product('Shorts', ObjectMother::money(null, 30)));
-        $offers_specs = [new ConstantOffer(ObjectMother::money(null, 5)), new ConstantOffer(ObjectMother::money(null, 10))];
+        $offers_specs = [ObjectMother::constantOffer(ObjectMother::money(null, 5)), ObjectMother::constantOffer(ObjectMother::money(null, 10))];
         $offers = $cart->getAvailableOffers($offers_specs);
         $this->assertCount(2, $offers);
         $this->assertTrue(ObjectMother::money(null,5)->equals($offers[0]->getDiscountValue()));
@@ -95,7 +95,7 @@ class CartTest extends TestCase
         $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
         $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
         $cart->addProduct(ObjectMother::product('Shorts', ObjectMother::money(null, 30)));
-        $offers = [new ConstantOffer(ObjectMother::money(null, 5))];
+        $offers = [ObjectMother::constantOffer(ObjectMother::money(null, 5))];
         $tax_calculator = ObjectMother::constantTaxCalculator(10);
         // 50 + 30 taxes - 5 offer
         $total = $cart->getTotal($tax_calculator, $offers);
@@ -106,28 +106,7 @@ class CartTest extends TestCase
 }
 
 
-class ConstantOffer implements IOfferSpecification{
 
-    private Money $value;
-    public function __construct(Money $value){
-        $this->value = $value;
-    }
-
-    public function isValidFor(Cart $cart): bool
-    {
-        return true;
-    }
-
-    public function calculateOfferValue(Cart $cart): Money
-    {
-        return $this->value;
-    }
-
-    public function getOfferName(): string
-    {
-        return "";
-    }
-}
 
 class NoOffer implements IOfferSpecification{
 

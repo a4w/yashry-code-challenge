@@ -2,6 +2,8 @@
 
 namespace Yashry;
 
+use Yashry\Domain\Cart\Cart;
+use Yashry\Domain\Offer\Service\IOfferSpecification;
 use Yashry\Domain\Product\Product;
 use Yashry\Domain\Product\Service\ITaxCalculator;
 use Yashry\Domain\ValueObject\Currency;
@@ -31,6 +33,13 @@ class ObjectMother
         return new ConstantTaxCalculator($value);
     }
 
+    public static function constantOffer(Money $amount = null): IOfferSpecification{
+        if($amount === null){
+            $amount = self::money();
+        }
+        return new ConstantOffer($amount);
+    }
+
 }
 
 class ConstantTaxCalculator implements ITaxCalculator{
@@ -41,5 +50,28 @@ class ConstantTaxCalculator implements ITaxCalculator{
     public function calculate(Product $for): Money
     {
         return new Money($for->getPrice()->getCurrency(), $this->tax);
+    }
+}
+
+class ConstantOffer implements IOfferSpecification{
+
+    private Money $value;
+    public function __construct(Money $value){
+        $this->value = $value;
+    }
+
+    public function isValidFor(Cart $cart): bool
+    {
+        return true;
+    }
+
+    public function calculateOfferValue(Cart $cart): Money
+    {
+        return $this->value;
+    }
+
+    public function getOfferName(): string
+    {
+        return "";
     }
 }
