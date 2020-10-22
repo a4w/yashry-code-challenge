@@ -9,8 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 class MoneyTest extends TestCase
 {
-    private function createCurrency(){
-        return new Currency('USD', '$', 1);
+    private function createCurrency($code = 'USD', $symbol = '$', $usd_equivalent = 1){
+        return new Currency($code, $symbol, $usd_equivalent);
     }
     /**
      * @test
@@ -41,6 +41,17 @@ class MoneyTest extends TestCase
         $b = new Money($this->createCurrency(), 20);
         $c = $a->add($b);
         $this->assertSame(30.0, $c->getValue());
+    }
+
+    /**
+     * @test
+     */
+    public function moneyCanConverted()
+    {
+        $a = new Money($this->createCurrency(), 10);
+        $egp = $this->createCurrency('EGP', 'LE', 0.05);
+        $c = $a->convertTo($egp);
+        $this->assertSame(200.0, $c->getValue());
     }
 
 

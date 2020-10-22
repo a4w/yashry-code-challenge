@@ -65,4 +65,10 @@ class Money
         return new self($this->currency, $money->getValue() + $this->getValue());
     }
 
+    public function convertTo(Currency $currency){
+        $value = $this->getValue() * $this->getCurrency()->getUsdEquivalent();
+        $new_value = $value / $currency->getUsdEquivalent();
+        return new self($currency, $new_value);
+    }
+
 }
