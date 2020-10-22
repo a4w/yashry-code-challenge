@@ -5,6 +5,7 @@ namespace Yashry\Domain\Product;
 
 
 use InvalidArgumentException;
+use Yashry\Domain\Product\Service\ITaxCalculator;
 use Yashry\Domain\ValueObject\Money;
 
 class Product
@@ -56,6 +57,15 @@ class Product
     public function setPrice(Money $price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * @param ITaxCalculator $calculator
+     * @return Money
+     */
+    public function getTax(ITaxCalculator $calculator): Money
+    {
+        return $calculator->calculate($this->getPrice());
     }
 
 }
