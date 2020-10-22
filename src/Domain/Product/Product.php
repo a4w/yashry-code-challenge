@@ -65,7 +65,7 @@ class Product
      */
     public function getTax(ITaxCalculator $calculator): Money
     {
-        return $calculator->calculate($this->getPrice());
+        return $calculator->calculate($this);
     }
 
     public function equals(Product $product){
