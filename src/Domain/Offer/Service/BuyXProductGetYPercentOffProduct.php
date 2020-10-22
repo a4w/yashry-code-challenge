@@ -25,17 +25,24 @@ class BuyXProductGetYPercentOffProduct implements IOfferSpecification
 
     public function isValidFor(Cart $cart): Bool
     {
-        $discounted = self::calculateOfferValue($cart);
-        return $discounted->getValue() > 0;
+        $main_item = $cart->getCartItemForProduct($this->main);
+        $discounted_item = $cart->getCartItemForProduct($this->discounted);
+        if($main_item === null || $discounted_item === null){
+            return false;
+        }
+        if($main_item->getQuantity() < $this->test_quantity || $discounted_item->getQuantity() < 1){
+            return false;
+        }
+        return true;
     }
 
     public function calculateOfferValue(Cart $cart): Money
     {
-        $main_item = $cart->getCartItemForProduct($this->main);
-        $discounted_item = $cart->getCartItemForProduct($this->discounted);
-        if($main_item === null || $discounted_item === null){
+        if(!self::isValidFor($cart)){
             return MoneyFactory::zero();
         }
+        $main_item = $cart->getCartItemForProduct($this->main);
+        $discounted_item = $cart->getCartItemForProduct($this->discounted);
         $main_item_quantity = $main_item->getQuantity();
         $discounted_item_quantity = $discounted_item->getQuantity();
         $available_offer_times = intval($main_item_quantity / $this->test_quantity);
