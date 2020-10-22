@@ -1,6 +1,7 @@
 <?php
+namespace Domain\ValueObject;
 
-
+use InvalidArgumentException;
 use Yashry\Domain\ValueObject\Currency;
 use PHPUnit\Framework\TestCase;
 
