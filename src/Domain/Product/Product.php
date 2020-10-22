@@ -4,6 +4,7 @@
 namespace Yashry\Domain\Product;
 
 
+use InvalidArgumentException;
 use Yashry\Domain\ValueObject\Money;
 
 class Product
@@ -35,6 +36,9 @@ class Product
      */
     public function setTitle(string $title): void
     {
+        if(strlen($title) === 0){
+            throw new InvalidArgumentException('Product title cannot be empty');
+        }
         $this->title = $title;
     }
 
