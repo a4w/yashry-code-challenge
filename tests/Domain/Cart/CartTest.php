@@ -88,6 +88,23 @@ class CartTest extends TestCase
         $this->assertCount(0, $offers);
     }
 
+    /**
+     * @test
+     */
+    public function canCalculateTotal()
+    {
+        $cart = new Cart();
+        $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
+        $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
+        $cart->addProduct(ObjectMother::product('Shorts', ObjectMother::money(null, 30)));
+        $offers = [new ConstantOffer(ObjectMother::money(null, 5))];
+        $tax_calculator = new ConstantTaxCalculator(10);
+        // 50 + 30 taxes - 5 offer
+        $total = $cart->getTotal($tax_calculator, $offers);
+        $this->assertTrue($total->equals(ObjectMother::money(null, 75)));
+
+    }
+
 }
 
 class ConstantTaxCalculator implements ITaxCalculator{

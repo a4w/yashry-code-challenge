@@ -102,4 +102,19 @@ class Cart
         return $offers;
     }
 
+    /**
+     * @param ITaxCalculator $tax_calculator
+     * @param IOfferSpecification[] $offers_specs
+     * @return Money
+     */
+    public function getTotal(ITaxCalculator $tax_calculator, array $offers_specs){
+        $subtotal = $this->getSubtotal();
+        $taxes = $this->getTaxesTotal($tax_calculator);
+        $offers = $this->getAvailableOffers($offers_specs);
+        $offers_total = array_reduce($offers, function(Money $carry, Offer $offer){
+            return $carry->add($offer->getDiscountValue());
+        }, MoneyFactory::zero());
+        return $subtotal->add($taxes)->subtract($offers_total);
+    }
+
 }
