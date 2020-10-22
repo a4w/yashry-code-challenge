@@ -28,13 +28,29 @@ class BuyXProductGetYPercentOffProductTest extends TestCase
     /**
      * @test
      */
-    public function calculateOfferNotPresentCorrectly()
+    public function calculateOfferNotFulfilledCorrectly()
     {
         $spec = new BuyXProductGetYPercentOffProduct(ObjectMother::product(), 5, ObjectMother::product('Shorts', ObjectMother::money(null, 10)), 50);
         $cart = new Cart();
         // Add two of test products
         $cart->addProduct(ObjectMother::product());
         $cart->addProduct(ObjectMother::product());
+        // Add one of discounted products
+        $cart->addProduct(ObjectMother::product('Shorts'));
+        $offer_value = $spec->calculateOfferValue($cart);
+        $this->assertTrue($offer_value->equals(ObjectMother::money(null, 0)));
+    }
+
+    /**
+     * @test
+     */
+    public function calculateOfferNotMatchedCorrectly()
+    {
+        $spec = new BuyXProductGetYPercentOffProduct(ObjectMother::product(), 5, ObjectMother::product('Shorts', ObjectMother::money(null, 10)), 50);
+        $cart = new Cart();
+        // Add two of test products
+        $cart->addProduct(ObjectMother::product('X'));
+        $cart->addProduct(ObjectMother::product('Y'));
         // Add one of discounted products
         $cart->addProduct(ObjectMother::product('Shorts'));
         $offer_value = $spec->calculateOfferValue($cart);

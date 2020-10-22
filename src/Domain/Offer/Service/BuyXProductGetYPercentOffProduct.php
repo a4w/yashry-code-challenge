@@ -7,6 +7,7 @@ namespace Yashry\Domain\Offer\Service;
 use Yashry\Domain\Cart\Cart;
 use Yashry\Domain\Product\Product;
 use Yashry\Domain\ValueObject\Money;
+use Yashry\Domain\ValueObject\MoneyFactory;
 
 class BuyXProductGetYPercentOffProduct implements IOfferSpecification
 {
@@ -25,15 +26,19 @@ class BuyXProductGetYPercentOffProduct implements IOfferSpecification
     public function isValidFor(Cart $cart): Bool
     {
         $discounted = self::calculateOfferValue($cart);
-        return $discounted > 0;
+        return $discounted->getValue() > 0;
     }
 
     public function calculateOfferValue(Cart $cart): Money
     {
         $main_item = $cart->getCartItemForProduct($this->main);
+        $discounted_item = $cart->getCartItemForProduct($this->discounted);
+        if($main_item === null || $discounted_item === null){
+            return MoneyFactory::zero();
+        }
         $main_item_quantity = $main_item->getQuantity();
+        $discounted_item_quantity = $discounted_item->getQuantity();
         $available_offer_times = intval($main_item_quantity / $this->test_quantity);
-        $discounted_item_quantity = $cart->getCartItemForProduct($this->discounted)->getQuantity();
         $applied_offer_times = min($available_offer_times, $discounted_item_quantity);
         $total_discounted_value = $applied_offer_times * (($this->percent_off/100) * $this->discounted->getPrice()->getValue());
         return new Money($this->discounted->getPrice()->getCurrency(), $total_discounted_value);
