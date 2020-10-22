@@ -4,6 +4,8 @@
 namespace Yashry\Domain\Cart;
 
 
+use Yashry\Domain\Offer\Offer;
+use Yashry\Domain\Offer\Service\IOfferSpecification;
 use Yashry\Domain\Product\Product;
 use Yashry\Domain\Product\Service\ITaxCalculator;
 use Yashry\Domain\ValueObject\Money;
@@ -38,16 +40,16 @@ class Cart
         $this->items = $items;
     }
 
-    public function addProduct(Product $product)
+    public function addProduct(Product $product): void
     {
         $exists = false;
         foreach ($this->items as &$item) {
-            if($item->getProduct()->equals($product)){
+            if ($item->getProduct()->equals($product)) {
                 $item->increaseQuantity();
                 $exists = true;
             }
         }
-        if(!$exists){
+        if (!$exists) {
             $this->items[] = new CartItem($product, 1);
         }
     }
@@ -72,6 +74,32 @@ class Cart
             $total = $total->add($line_tax_total);
         }
         return $total;
+    }
+
+    public function getCartItemForProduct(Product $product): ?CartItem
+    {
+        foreach ($this->items as &$item) {
+            if ($item->getProduct()->equals($product)) {
+                return $item;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param IOfferSpecification[] $offers_specs
+     * @return Offer[]
+     */
+    public function getAvailableOffers(array $offers_specs): array
+    {
+        $offers = [];
+        foreach ($offers_specs as $spec) {
+            if ($spec->isValidFor($this)) {
+                $value = $spec->calculateOfferValue($this);
+                $offers[] = new Offer($spec, $value);
+            }
+        }
+        return $offers;
     }
 
 }
