@@ -50,16 +50,20 @@ class CartTest extends TestCase
     {
         $cart = new Cart();
         $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
+        $cart->addProduct(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)));
         $cart->addProduct(ObjectMother::product('Shorts', ObjectMother::money(null, 30)));
-        $taxes = $cart->getTaxes(new DoubleTaxCalculator());
-        $this->assertSame(20.0, $taxes->getValue());
+        $taxes = $cart->getTaxesTotal(new ConstantTaxCalculator(10));
+        $this->assertSame(30.0, $taxes->getValue());
     }
 }
 
-class DoubleTaxCalculator implements ITaxCalculator{
-
+class ConstantTaxCalculator implements ITaxCalculator{
+    private Float $tax;
+    public function __construct(Float $value){
+        $this->tax = $value;
+    }
     public function calculate(Money $for): Money
     {
-        return new Money($for->getCurrency(), 10);
+        return new Money($for->getCurrency(), $this->tax);
     }
 }

@@ -63,13 +63,13 @@ class Cart
         return $total;
     }
 
-    public function getTaxes(ITaxCalculator $calculator): Money
+    public function getTaxesTotal(ITaxCalculator $calculator): Money
     {
         $total = MoneyFactory::zero();
         foreach ($this->items as $item) {
             $price = $item->getProduct()->getTax($calculator);
-            $line_total = new Money($price->getCurrency(), $price->getValue() * $item->getQuantity());
-            $total = $total->add($line_total);
+            $line_tax_total = new Money($price->getCurrency(), $price->getValue() * $item->getQuantity());
+            $total = $total->add($line_tax_total);
         }
         return $total;
     }
