@@ -11,4 +11,5 @@ interface IOfferSpecification
 {
     public function isValidFor(Cart $cart): Bool;
     public function calculateOfferValue(Cart $cart): Money;
+    public function getOfferName(): String;
 }

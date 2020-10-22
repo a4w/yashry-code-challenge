@@ -15,8 +15,10 @@ class BuyXProductGetYPercentOffProduct implements IOfferSpecification
     private Product $discounted;
     private Int $test_quantity;
     private Float $percent_off;
+    private String $name;
 
-    public function __construct(Product $main, Int $test_quantity, Product $discounted, Float $percent_off){
+    public function __construct(String $name, Product $main, Int $test_quantity, Product $discounted, Float $percent_off){
+        $this->name = $name;
         $this->main = $main;
         $this->discounted = $discounted;
         $this->test_quantity = $test_quantity;
@@ -49,5 +51,10 @@ class BuyXProductGetYPercentOffProduct implements IOfferSpecification
         $applied_offer_times = min($available_offer_times, $discounted_item_quantity);
         $total_discounted_value = $applied_offer_times * (($this->percent_off/100) * $this->discounted->getPrice()->getValue());
         return new Money($this->discounted->getPrice()->getCurrency(), $total_discounted_value);
+    }
+
+    public function getOfferName(): string
+    {
+        return $this->name;
     }
 }

@@ -14,7 +14,7 @@ class ProductDiscountedPercentTest extends TestCase
      */
     public function calculateOfferPresentCorrectly()
     {
-        $spec = new ProductDiscountedPercent(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)), 50);
+        $spec = new ProductDiscountedPercent("", ObjectMother::product('T-shirt', ObjectMother::money(null, 10)), 50);
         $cart = new Cart();
         $cart->addProduct(ObjectMother::product('T-shirt'));
         $cart->addProduct(ObjectMother::product('T-shirt'));
@@ -27,7 +27,7 @@ class ProductDiscountedPercentTest extends TestCase
      */
     public function calculateOfferNotFulfilledCorrectly()
     {
-        $spec = new ProductDiscountedPercent(ObjectMother::product('T-shirt', ObjectMother::money(null, 10)), 50);
+        $spec = new ProductDiscountedPercent("", ObjectMother::product('T-shirt', ObjectMother::money(null, 10)), 50);
         $cart = new Cart();
         $cart->addProduct(ObjectMother::product('Shorts'));
         $offer_value = $spec->calculateOfferValue($cart);

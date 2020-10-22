@@ -117,6 +117,11 @@ class ConstantOffer implements IOfferSpecification{
     {
         return $this->value;
     }
+
+    public function getOfferName(): string
+    {
+        return "";
+    }
 }
 
 class NoOffer implements IOfferSpecification{
@@ -129,5 +134,10 @@ class NoOffer implements IOfferSpecification{
     public function calculateOfferValue(Cart $cart): Money
     {
         return ObjectMother::money();
+    }
+
+    public function getOfferName(): string
+    {
+        return "";
     }
 }

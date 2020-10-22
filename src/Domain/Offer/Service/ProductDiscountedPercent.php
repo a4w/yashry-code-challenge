@@ -13,16 +13,18 @@ class ProductDiscountedPercent implements IOfferSpecification
 {
     private Product $target;
     private Float $discount_percent;
+    private String $name;
 
     /**
      * ProductDiscountedPercent constructor.
      * @param Product $target
      * @param Float $discount_percent
      */
-    public function __construct(Product $target, float $discount_percent)
+    public function __construct(String $name, Product $target, float $discount_percent)
     {
         $this->target = $target;
         $this->discount_percent = $discount_percent;
+        $this->name = $name;
     }
 
     public function isValidFor(Cart $cart): bool
@@ -39,5 +41,10 @@ class ProductDiscountedPercent implements IOfferSpecification
         $quantity = $cart_item->getQuantity();
         $discount_per_item = $this->target->getPrice()->getValue() * ($this->discount_percent/100);
         return new Money($this->target->getPrice()->getCurrency(), $quantity * $discount_per_item);
+    }
+
+    public function getOfferName(): string
+    {
+        return $this->name;
     }
 }
