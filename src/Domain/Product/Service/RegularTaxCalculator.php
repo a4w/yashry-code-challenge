@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Yashry\Domain\Tax;
+namespace Yashry\Domain\Product\Service;
 
 
 use Yashry\Domain\ValueObject\Money;
