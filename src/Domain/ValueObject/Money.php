@@ -73,4 +73,15 @@ class Money
         return $this->getValue() === $money->getValue() && $this->getCurrency()->equals($money->getCurrency());
     }
 
+    public function __toString()
+    {
+        $str = (string) $this->getValue();
+        if($this->getCurrency()->isIsAmountAfterSymbol()){
+            $str = $this->getCurrency()->getSymbol() . $str;
+        }else{
+            $str .= $this->getCurrency()->getSymbol();
+        }
+        return $str;
+    }
+
 }

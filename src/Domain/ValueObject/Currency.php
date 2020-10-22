@@ -9,6 +9,7 @@ class Currency
     private string $currency_code;
     private string $symbol;
     private float $usd_equivalent;
+    private bool $is_amount_after_symbol;
 
     /**
      * Currency constructor.
@@ -16,11 +17,12 @@ class Currency
      * @param String $symbol
      * @param Float $usd_equivalent
      */
-    public function __construct(string $currency_code = 'USD', string $symbol = '$', float $usd_equivalent = 1)
+    public function __construct(string $currency_code = 'USD', string $symbol = '$', float $usd_equivalent = 1, bool $is_amount_after_symbol = true)
     {
         $this->setCurrencyCode($currency_code);
         $this->setSymbol($symbol);
         $this->setUsdEquivalent($usd_equivalent);
+        $this->is_amount_after_symbol = $is_amount_after_symbol;
     }
 
     /**
@@ -79,6 +81,14 @@ class Currency
     public function getUsdEquivalent(): float
     {
         return $this->usd_equivalent;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIsAmountAfterSymbol(): bool
+    {
+        return $this->is_amount_after_symbol;
     }
 
     public function equals(Currency $currency): Bool{
