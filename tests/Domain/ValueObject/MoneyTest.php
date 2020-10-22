@@ -3,7 +3,7 @@
 namespace Domain\ValueObject;
 
 use InvalidArgumentException;
-use ObjectMother;
+use Yashry\ObjectMother;
 use Yashry\Domain\ValueObject\Money;
 use PHPUnit\Framework\TestCase;
 
