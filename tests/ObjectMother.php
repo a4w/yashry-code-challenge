@@ -11,9 +11,9 @@ use Yashry\Domain\ValueObject\Money;
 
 class ObjectMother
 {
-    public static function currency($code = 'USD', $symbol = '$', $usd_equivalent = 1)
+    public static function currency($code = 'USD', $symbol = '$', $usd_equivalent = 1, $is_amount_after_symbol = true)
     {
-        return new Currency($code, $symbol, $usd_equivalent);
+        return new Currency($code, $symbol, $usd_equivalent, $is_amount_after_symbol);
     }
 
     public static function money(?Currency $currency = null, $value = 0)

@@ -55,6 +55,6 @@ class FakeCreateCartService implements ICreateCartFromProducts
 
     public function execute(CreateCartFromProductsRequest $request): CreateCartFromProductResponse
     {
-        return new CreateCartFromProductResponse(new Cart(), ObjectMother::constantTaxCalculator(), []);
+        return new CreateCartFromProductResponse(new Cart(), ObjectMother::currency(),ObjectMother::constantTaxCalculator(), []);
     }
 }

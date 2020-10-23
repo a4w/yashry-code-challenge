@@ -5,6 +5,7 @@ namespace Application\Service;
 use Yashry\Application\DataTransferObject\CreateCartFromProductsRequest;
 use Yashry\Application\Service\CreateCartFromProducts;
 use PHPUnit\Framework\TestCase;
+use Yashry\Infrastructre\Persistence\InMemoryCurrencyRepository;
 use Yashry\Infrastructre\Persistence\InMemoryOfferSpecificationRepository;
 use Yashry\Infrastructre\Persistence\InMemoryProductRepository;
 use Yashry\ObjectMother;
@@ -20,8 +21,9 @@ class CreateCartFromProductsTest extends TestCase
         $this->expectException(Exception::class);
         $product_repository = new InMemoryProductRepository();
         $offer_spec_repository = new InMemoryOfferSpecificationRepository();
-        $service = new CreateCartFromProducts($product_repository, $offer_spec_repository, ObjectMother::constantTaxCalculator());
-        $dto = new CreateCartFromProductsRequest(['T-shirt', 'Shoes']);
+        $currency_repository = new InMemoryCurrencyRepository();
+        $service = new CreateCartFromProducts($product_repository, $offer_spec_repository, $currency_repository, ObjectMother::constantTaxCalculator());
+        $dto = new CreateCartFromProductsRequest(['T-shirt', 'Shoes'], 'USD');
         $service->execute($dto);
     }
 
@@ -37,8 +39,11 @@ class CreateCartFromProductsTest extends TestCase
         $offer_spec_repository = new InMemoryOfferSpecificationRepository();
         $offer_spec_repository->add(ObjectMother::constantOffer(ObjectMother::money(null, 5)));
 
-        $service = new CreateCartFromProducts($product_repository, $offer_spec_repository, ObjectMother::constantTaxCalculator(10));
-        $dto = new CreateCartFromProductsRequest(['T-shirt', 'Shoes']);
+        $currency_repository = new InMemoryCurrencyRepository();
+        $currency_repository->save(ObjectMother::currency('USD', '$', 1, true));
+
+        $service = new CreateCartFromProducts($product_repository, $offer_spec_repository, $currency_repository, ObjectMother::constantTaxCalculator(10));
+        $dto = new CreateCartFromProductsRequest(['T-shirt', 'Shoes'], 'USD');
         $response_dto = $service->execute($dto);
         $this->assertSame("$30", $response_dto->subtotal);
         $this->assertSame("$20", $response_dto->taxes);

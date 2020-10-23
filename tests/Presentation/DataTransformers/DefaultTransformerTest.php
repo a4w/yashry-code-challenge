@@ -16,7 +16,7 @@ class DefaultTransformerTest extends TestCase
     public function testJsonTransformer()
     {
         $offers = [ObjectMother::constantOffer()];
-        $dto = new CreateCartFromProductResponse(new Cart(), ObjectMother::constantTaxCalculator(), $offers);
+        $dto = new CreateCartFromProductResponse(new Cart(), ObjectMother::currency(), ObjectMother::constantTaxCalculator(), $offers);
         $transformer = new DefaultTransformer($dto);
         $raw_json = $transformer->toJson();
         $this->assertJson($raw_json);
