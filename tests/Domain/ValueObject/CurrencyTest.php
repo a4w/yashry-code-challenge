@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\ValueObject;
 
 use InvalidArgumentException;
@@ -10,7 +11,8 @@ class CurrencyTest extends TestCase
     /**
      * @test
      */
-    public function currencyCantHaveInvalidISO(){
+    public function currencyCantHaveInvalidISO()
+    {
         $this->expectException(InvalidArgumentException::class);
         new Currency('usdd', '$', 1);
     }
@@ -18,7 +20,8 @@ class CurrencyTest extends TestCase
     /**
      * @test
      */
-    public function currencyCantHaveEmptySymbol(){
+    public function currencyCantHaveEmptySymbol()
+    {
         $this->expectException(InvalidArgumentException::class);
         new Currency('USD', '', 1);
     }
@@ -26,7 +29,8 @@ class CurrencyTest extends TestCase
     /**
      * @test
      */
-    public function currencyCantHaveNonPositiveConversionRate(){
+    public function currencyCantHaveNonPositiveConversionRate()
+    {
         $this->expectException(InvalidArgumentException::class);
         new Currency('USD', '$', 0);
     }
@@ -34,7 +38,8 @@ class CurrencyTest extends TestCase
     /**
      * @test
      */
-    public function currencyCanBeCreated(){
+    public function currencyCanBeCreated()
+    {
         $currency = new Currency('USD', '$', 1);
         $this->assertInstanceOf(Currency::class, $currency);
     }

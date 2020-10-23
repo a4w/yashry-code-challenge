@@ -68,8 +68,8 @@ class CartTest extends TestCase
         $offers_specs = [ObjectMother::constantOffer(ObjectMother::money(null, 5)), ObjectMother::constantOffer(ObjectMother::money(null, 10))];
         $offers = $cart->getAvailableOffers($offers_specs);
         $this->assertCount(2, $offers);
-        $this->assertTrue(ObjectMother::money(null,5)->equals($offers[0]->getDiscountValue()));
-        $this->assertTrue(ObjectMother::money(null,10)->equals($offers[1]->getDiscountValue()));
+        $this->assertTrue(ObjectMother::money(null, 5)->equals($offers[0]->getDiscountValue()));
+        $this->assertTrue(ObjectMother::money(null, 10)->equals($offers[1]->getDiscountValue()));
     }
 
     /**
@@ -106,9 +106,8 @@ class CartTest extends TestCase
 }
 
 
-
-
-class NoOffer implements IOfferSpecification{
+class NoOffer implements IOfferSpecification
+{
 
     public function isValidFor(Cart $cart): bool
     {

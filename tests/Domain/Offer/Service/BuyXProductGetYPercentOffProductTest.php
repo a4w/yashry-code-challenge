@@ -14,7 +14,7 @@ class BuyXProductGetYPercentOffProductTest extends TestCase
      */
     public function calculateOfferPresentCorrectly()
     {
-        $spec = new BuyXProductGetYPercentOffProduct("",ObjectMother::product(), 2, ObjectMother::product('Shorts', ObjectMother::money(null, 10)), 50);
+        $spec = new BuyXProductGetYPercentOffProduct("", ObjectMother::product(), 2, ObjectMother::product('Shorts', ObjectMother::money(null, 10)), 50);
         $cart = new Cart();
         // Add two of test products
         $cart->addProduct(ObjectMother::product());

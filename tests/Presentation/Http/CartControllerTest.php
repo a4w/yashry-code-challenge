@@ -20,7 +20,7 @@ class CartControllerTest extends TestCase
     public function rejectsEmptyRequests()
     {
         $this->expectException(Exception::class);
-        $request = new Request([],[],[],[],[],[], "");
+        $request = new Request([], [], [], [], [], [], "");
         $controller = new CartController(new FakeCreateCartService());
         $controller->createCart($request);
     }
@@ -31,16 +31,17 @@ class CartControllerTest extends TestCase
     public function rejectsMalformedRequests()
     {
         $this->expectException(Exception::class);
-        $request = new Request([],[],[],[],[],[], json_encode(['products' => true]));
+        $request = new Request([], [], [], [], [], [], json_encode(['products' => true]));
         $controller = new CartController(new FakeCreateCartService());
         $controller->createCart($request);
     }
+
     /**
      * @test
      */
     public function acceptsValidRequests()
     {
-        $request = new Request([],[],[],[],[],[], json_encode(['products' => ['T-shirt', 'Shoes']]));
+        $request = new Request([], [], [], [], [], [], json_encode(['products' => ['T-shirt', 'Shoes']]));
         $controller = new CartController(new FakeCreateCartService());
         $response = $controller->createCart($request);
         $response = $response->getContent();
@@ -49,7 +50,8 @@ class CartControllerTest extends TestCase
 
 }
 
-class FakeCreateCartService implements ICreateCartFromProducts {
+class FakeCreateCartService implements ICreateCartFromProducts
+{
 
     public function execute(CreateCartFromProductsRequest $request): CreateCartFromProductResponse
     {
