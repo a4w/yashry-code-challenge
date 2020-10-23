@@ -13,7 +13,7 @@ class OfferResponse
 
     public function __construct(Offer $offer)
     {
-        $this->value = $offer->getDiscountValue();
+        $this->value = '-' .  (string)$offer->getDiscountValue();
         $this->offer_name = $offer->getOfferSpecification()->getOfferName();
     }
 }
