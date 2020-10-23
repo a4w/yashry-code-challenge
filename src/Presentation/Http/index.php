@@ -14,6 +14,8 @@ try {
     if ($request->getMethod() === 'POST' && $request->getPathInfo() === '/cart') {
         $controller = new CartController($di_container->get(CreateCartFromProducts::class));
         $response = $controller->createCart($request);
+    } else {
+        throw new Exception('Route not found', 404);
     }
 } catch (Exception $e) {
     $response = new JsonResponse([
