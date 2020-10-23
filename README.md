@@ -14,6 +14,7 @@ This will run the development server, now we need to send a HTTP request to the 
 1. Postman 
 2. cURL
 `curl --location --request POST 'localhost:8000/cart' --header 'Content-Type: application/json' --data-raw '{"products":["T-shirt", "T-shirt", "Shoes", "Jacket"], "currency": "USD"}'`
+
 Outputs: 
 `{
     "subtotal":"$66.96",
