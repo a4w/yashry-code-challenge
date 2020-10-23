@@ -42,8 +42,9 @@ class CartController
         if (!isset($json['products']) || !is_array($json['products'])) {
             throw new Exception('JSON must contain an array with the key \'products\'');
         }
+        $response_currency_code = $json['currency'] ?? 'USD';
         // Create DTO request for communicating with the application service (injected to this controller)
-        $request_dto = new CreateCartFromProductsRequest($json['products']);
+        $request_dto = new CreateCartFromProductsRequest($json['products'], $response_currency_code);
         // Read DTO returned by the appliaton service
         $response_dto = $this->create_cart_service->execute($request_dto);
         // Transform DTO to JSON format to be a consumable API
