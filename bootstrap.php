@@ -23,7 +23,7 @@ $containerBuilder->addDefinitions([
     IOfferSpecificationRepository::class => create(InMemoryOfferSpecificationRepository::class),
     ITaxCalculator::class => create(RegularTaxCalculator::class)
 ]);
-try{
+try {
     $container = $containerBuilder->build();
 
     // Hydrate repositories for testing
@@ -47,7 +47,7 @@ try{
 
     return $container;
 
-}catch (Exception $e){
+} catch (Exception $e) {
     echo 'Error setting up environment: ' . $e->getMessage();
 }
 
