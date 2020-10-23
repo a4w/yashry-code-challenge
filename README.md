@@ -20,7 +20,7 @@ This will run the development server, now we need to send a HTTP request to the 
 Outputs: 
 
 
-    `{
+    {
     	"subtotal":"$66.96",
     	"taxes":"$9.3744",
     	"offers":
@@ -35,7 +35,7 @@ Outputs:
     			}
     		],
     		"total":"$63.8404"
-    }`
+    }
 
 ## Architecture
 I'm using a layered architecture, where each layer strictly depends on layer below it only with the exception of the infrastructure layer; All layers have a dependency on the infrastructure layer services (to provide Logging for example) but all the dependencies are upon interfaces to allow substituting implementations of the infrastructure without touching neither Application nor the domain layer.
