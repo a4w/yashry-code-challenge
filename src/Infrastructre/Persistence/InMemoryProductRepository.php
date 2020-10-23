@@ -17,6 +17,10 @@ class InMemoryProductRepository implements IProductRepository
     /** @var Product[] */
     private array $data;
 
+    /**
+     * @param string $name
+     * @return Product|null
+     */
     public function findByTitle(string $name): ?Product
     {
         if (isset($this->data[$name])) {
@@ -25,6 +29,9 @@ class InMemoryProductRepository implements IProductRepository
         return null;
     }
 
+    /**
+     * @param Product $product
+     */
     public function save(Product $product)
     {
         $this->data[$product->getTitle()] = $product;

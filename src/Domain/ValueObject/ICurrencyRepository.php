@@ -10,6 +10,6 @@ namespace Yashry\Domain\ValueObject;
  */
 interface ICurrencyRepository
 {
-    public function findByCode(String $code): Currency;
-    public function add(Currency $currency);
+    public function findByCode(String $code): ?Currency;
+    public function save(Currency $currency);
 }

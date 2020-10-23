@@ -30,6 +30,9 @@ class InMemoryOfferSpecificationRepository implements IOfferSpecificationReposit
         return $this->data;
     }
 
+    /**
+     * @param IOfferSpecification $offer_specification
+     */
     public function add(IOfferSpecification $offer_specification)
     {
         $this->data[] = $offer_specification;
