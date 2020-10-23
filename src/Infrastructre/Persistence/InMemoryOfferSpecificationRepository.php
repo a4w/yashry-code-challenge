@@ -7,10 +7,14 @@ namespace Yashry\Infrastructre\Persistence;
 use Yashry\Domain\Offer\Service\IOfferSpecification;
 use Yashry\Domain\Offer\Service\IOfferSpecificationRepository;
 
+/**
+ * Implementation of the offer specification repository inside the memory
+ * @package Yashry\Infrastructre\Persistence
+ */
 class InMemoryOfferSpecificationRepository implements IOfferSpecificationRepository
 {
 
-    /** @var IOfferSpecification[]  */
+    /** @var IOfferSpecification[] */
     private array $data;
 
     public function __construct()

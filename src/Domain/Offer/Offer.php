@@ -7,6 +7,10 @@ namespace Yashry\Domain\Offer;
 use Yashry\Domain\Offer\Service\IOfferSpecification;
 use Yashry\Domain\ValueObject\Money;
 
+/**
+ * Represents an offer fulfilled by a cart
+ * @package Yashry\Domain\Offer
+ */
 class Offer
 {
     private IOfferSpecification $offer_specification;

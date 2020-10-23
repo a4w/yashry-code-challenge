@@ -4,6 +4,10 @@
 namespace Yashry\Domain\Offer\Service;
 
 
+/**
+ * Represents the repository of all available offer specifications
+ * @package Yashry\Domain\Offer\Service
+ */
 interface IOfferSpecificationRepository
 {
     /**

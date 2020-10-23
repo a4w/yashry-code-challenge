@@ -4,6 +4,10 @@ namespace Yashry\Domain\ValueObject;
 
 use InvalidArgumentException;
 
+/**
+ * Represents a currency where conversion is possible
+ * @package Yashry\Domain\ValueObject
+ */
 class Currency
 {
     private string $currency_code;
@@ -16,6 +20,7 @@ class Currency
      * @param String $currency_code
      * @param String $symbol
      * @param Float $usd_equivalent
+     * @param bool $is_amount_after_symbol
      */
     public function __construct(string $currency_code = 'USD', string $symbol = '$', float $usd_equivalent = 1, bool $is_amount_after_symbol = true)
     {

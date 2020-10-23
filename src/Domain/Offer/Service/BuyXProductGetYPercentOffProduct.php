@@ -9,15 +9,20 @@ use Yashry\Domain\Product\Product;
 use Yashry\Domain\ValueObject\Money;
 use Yashry\Domain\ValueObject\MoneyFactory;
 
+/**
+ * Represents an offer spec of the discount on a product given the purchase of another
+ * @package Yashry\Domain\Offer\Service
+ */
 class BuyXProductGetYPercentOffProduct implements IOfferSpecification
 {
     private Product $main;
     private Product $discounted;
-    private Int $test_quantity;
-    private Float $percent_off;
-    private String $name;
+    private int $test_quantity;
+    private float $percent_off;
+    private string $name;
 
-    public function __construct(String $name, Product $main, Int $test_quantity, Product $discounted, Float $percent_off){
+    public function __construct(string $name, Product $main, int $test_quantity, Product $discounted, float $percent_off)
+    {
         $this->name = $name;
         $this->main = $main;
         $this->discounted = $discounted;
@@ -25,14 +30,14 @@ class BuyXProductGetYPercentOffProduct implements IOfferSpecification
         $this->percent_off = $percent_off;
     }
 
-    public function isValidFor(Cart $cart): Bool
+    public function isValidFor(Cart $cart): bool
     {
         $main_item = $cart->getCartItemForProduct($this->main);
         $discounted_item = $cart->getCartItemForProduct($this->discounted);
-        if($main_item === null || $discounted_item === null){
+        if ($main_item === null || $discounted_item === null) {
             return false;
         }
-        if($main_item->getQuantity() < $this->test_quantity || $discounted_item->getQuantity() < 1){
+        if ($main_item->getQuantity() < $this->test_quantity || $discounted_item->getQuantity() < 1) {
             return false;
         }
         return true;
@@ -40,7 +45,7 @@ class BuyXProductGetYPercentOffProduct implements IOfferSpecification
 
     public function calculateOfferValue(Cart $cart): Money
     {
-        if(!self::isValidFor($cart)){
+        if (!self::isValidFor($cart)) {
             return MoneyFactory::zero();
         }
         $main_item = $cart->getCartItemForProduct($this->main);
@@ -49,7 +54,7 @@ class BuyXProductGetYPercentOffProduct implements IOfferSpecification
         $discounted_item_quantity = $discounted_item->getQuantity();
         $available_offer_times = intval($main_item_quantity / $this->test_quantity);
         $applied_offer_times = min($available_offer_times, $discounted_item_quantity);
-        $total_discounted_value = $applied_offer_times * (($this->percent_off/100) * $this->discounted->getPrice()->getValue());
+        $total_discounted_value = $applied_offer_times * (($this->percent_off / 100) * $this->discounted->getPrice()->getValue());
         return new Money($this->discounted->getPrice()->getCurrency(), $total_discounted_value);
     }
 

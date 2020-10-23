@@ -8,9 +8,13 @@ use InvalidArgumentException;
 use Yashry\Domain\Product\Service\ITaxCalculator;
 use Yashry\Domain\ValueObject\Money;
 
+/**
+ * Represents a product with a unique title and a price
+ * @package Yashry\Domain\Product
+ */
 class Product
 {
-    private String $title;
+    private string $title;
     private Money $price;
 
     /**
@@ -37,7 +41,7 @@ class Product
      */
     public function setTitle(string $title): void
     {
-        if(strlen($title) === 0){
+        if (strlen($title) === 0) {
             throw new InvalidArgumentException('Product title cannot be empty');
         }
         $this->title = $title;
@@ -68,7 +72,8 @@ class Product
         return $calculator->calculate($this);
     }
 
-    public function equals(Product $product){
+    public function equals(Product $product)
+    {
         // I'm assuming the title is the unique identifier for this business
         return $this->getTitle() === $product->getTitle();
     }

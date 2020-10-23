@@ -12,6 +12,10 @@ use Yashry\Domain\Offer\Service\IOfferSpecificationRepository;
 use Yashry\Domain\Product\Service\IProductRepository;
 use Yashry\Domain\Product\Service\ITaxCalculator;
 
+/**
+ * Application service class the coordinates the creation of carts from products
+ * @package Yashry\Application\Service
+ */
 class CreateCartFromProducts implements ICreateCartFromProducts
 {
     private IProductRepository $product_repository;
@@ -38,6 +42,7 @@ class CreateCartFromProducts implements ICreateCartFromProducts
     {
         $product_names = $request->products;
         $products = [];
+        // Check that all products supplied exists
         foreach ($product_names as $product_name) {
             $product = $this->product_repository->findByTitle($product_name);
             if ($product === null) {
@@ -45,8 +50,13 @@ class CreateCartFromProducts implements ICreateCartFromProducts
             }
             $products[] = $product;
         }
+        // Create the cart aggregate root
         $cart = CartFactory::createFromProducts($products);
+        // Get all offers that may apply to the cart
         $available_offers = $this->offer_specification_repository->findAll();
+
+        // Return the DTO representing the response, passing the domain object. A better approach here would be to use a DTO Assembler
+        // But for the sake of this application this is fine as logic is delegated to the service anyway
         return new CreateCartFromProductResponse($cart, $this->tax_calculator, $available_offers);
     }
 }

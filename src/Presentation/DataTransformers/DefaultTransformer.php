@@ -4,6 +4,10 @@
 namespace Yashry\Presentation\DataTransformers;
 
 
+/**
+ * The default transformer that can act on regular PHP objects
+ * @package Yashry\Presentation\DataTransformers
+ */
 class DefaultTransformer implements IJsonTransformer
 {
     private object $dto;

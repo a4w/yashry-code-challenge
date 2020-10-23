@@ -9,13 +9,13 @@ use Yashry\Presentation\Http\CartController;
 
 // Very simple naive routing as I didn't want to use a framework here and implementing fully fledged routing is an over kill
 $response = new Response();
-try{
+try {
     $request = Request::createFromGlobals();
-    if($request->getMethod() === 'POST' && $request->getPathInfo() === '/cart'){
+    if ($request->getMethod() === 'POST' && $request->getPathInfo() === '/cart') {
         $controller = new CartController($di_container->get(CreateCartFromProducts::class));
         $response = $controller->createCart($request);
     }
-}catch (Exception $e){
+} catch (Exception $e) {
     $response = new JsonResponse([
         'error' => true,
         'message' => $e->getMessage(),

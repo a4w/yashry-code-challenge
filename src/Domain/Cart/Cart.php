@@ -40,6 +40,10 @@ class Cart
         $this->items = $items;
     }
 
+    /**
+     * Adds product as a cart item or increases the quantity if already exists
+     * @param Product $product
+     */
     public function addProduct(Product $product): void
     {
         $exists = false;
@@ -54,6 +58,10 @@ class Cart
         }
     }
 
+    /**
+     * Gets the cart total without offers or taxes
+     * @return Money
+     */
     public function getSubtotal(): Money
     {
         $total = MoneyFactory::zero();
@@ -65,6 +73,11 @@ class Cart
         return $total;
     }
 
+    /**
+     * Gets the total tax of all products inside the cart
+     * @param ITaxCalculator $calculator
+     * @return Money
+     */
     public function getTaxesTotal(ITaxCalculator $calculator): Money
     {
         $total = MoneyFactory::zero();
@@ -76,6 +89,11 @@ class Cart
         return $total;
     }
 
+    /**
+     * Returns the cart item for a given product
+     * @param Product $product
+     * @return CartItem|null
+     */
     public function getCartItemForProduct(Product $product): ?CartItem
     {
         foreach ($this->items as &$item) {
@@ -87,6 +105,7 @@ class Cart
     }
 
     /**
+     * Takes a list of all available offer specifications and returns a list of all the offers matching
      * @param IOfferSpecification[] $offers_specs
      * @return Offer[]
      */
@@ -103,15 +122,17 @@ class Cart
     }
 
     /**
+     * Returns the total amount of the cart taking taxes and offers into account
      * @param ITaxCalculator $tax_calculator
      * @param IOfferSpecification[] $offers_specs
      * @return Money
      */
-    public function getTotal(ITaxCalculator $tax_calculator, array $offers_specs){
+    public function getTotal(ITaxCalculator $tax_calculator, array $offers_specs)
+    {
         $subtotal = $this->getSubtotal();
         $taxes = $this->getTaxesTotal($tax_calculator);
         $offers = $this->getAvailableOffers($offers_specs);
-        $offers_total = array_reduce($offers, function(Money $carry, Offer $offer){
+        $offers_total = array_reduce($offers, function (Money $carry, Offer $offer) {
             return $carry->add($offer->getDiscountValue());
         }, MoneyFactory::zero());
         return $subtotal->add($taxes)->subtract($offers_total);

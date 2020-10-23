@@ -9,6 +9,7 @@ use Yashry\Domain\Product\Product;
 class CartFactory
 {
     /**
+     * Creates a cart from a list of products
      * @param Product[] $products
      * @return Cart
      */

@@ -10,11 +10,11 @@ use Yashry\Domain\Product\Service\ITaxCalculator;
 
 class CreateCartFromProductResponse
 {
-    public String $subtotal;
-    public String $taxes;
-    /** @var OfferResponse[]  */
+    public string $subtotal;
+    public string $taxes;
+    /** @var OfferResponse[] */
     public array $offers;
-    public String $total;
+    public string $total;
 
     /**
      * CreateCartFromProductResponse constructor.
@@ -24,11 +24,11 @@ class CreateCartFromProductResponse
      */
     public function __construct(Cart $cart, ITaxCalculator $tax_calculator, array $available_offers)
     {
-        $this->subtotal = (string) $cart->getSubtotal();
-        $this->taxes = (string) $cart->getTaxesTotal($tax_calculator);
-        $this->offers = array_map(function($offer){
+        $this->subtotal = (string)$cart->getSubtotal();
+        $this->taxes = (string)$cart->getTaxesTotal($tax_calculator);
+        $this->offers = array_map(function ($offer) {
             return new OfferResponse($offer);
         }, $cart->getAvailableOffers($available_offers));
-        $this->total = (string) $cart->getTotal($tax_calculator, $available_offers);
+        $this->total = (string)$cart->getTotal($tax_calculator, $available_offers);
     }
 }
