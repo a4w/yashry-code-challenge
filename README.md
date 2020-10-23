@@ -34,7 +34,7 @@ Outputs:
     				"offer_name":"50% off jacket"
     			}
     		],
-    		"total":"$63.8404"
+        "total":"$63.8404"
     }
 
 ## Architecture
