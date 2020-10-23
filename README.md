@@ -130,3 +130,6 @@ Please note that the only file that is not following this architecture is `boots
 ### Persistence
 I used in memory implementation for the mocking persistence for simplicity and the lack of a requirement to use a fully fledged database.
 
+
+## Further information
+If you would like to contact me for further information please send an email or call me via phone. (*Contact information is in the resume*).
