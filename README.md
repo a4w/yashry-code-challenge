@@ -13,25 +13,29 @@ Make sure you have [composer](https://getcomposer.org/download/) installed befor
 This will run the development server, now we need to send a HTTP request to the server, This can be done by:
 1. Postman 
 2. cURL
+
 `curl --location --request POST 'localhost:8000/cart' --header 'Content-Type: application/json' --data-raw '{"products":["T-shirt", "T-shirt", "Shoes", "Jacket"], "currency": "USD"}'`
 
+
 Outputs: 
-`{
-    "subtotal":"$66.96",
-    "taxes":"$9.3744",
-    "offers":
-        [
-            {
-                "value":"-$2.499",
-                "offer_name":"10% off shoes"
-            },
-            {
-                "value":"-$9.995",
-                "offer_name":"50% off jacket"
-            }
-        ],
-        "total":"$63.8404"
-}`
+
+
+    `{
+    	"subtotal":"$66.96",
+    	"taxes":"$9.3744",
+    	"offers":
+    		[
+    			{
+    				"value":"-$2.499",
+    				"offer_name":"10% off shoes"
+    			},
+    			{
+    				"value":"-$9.995",
+    				"offer_name":"50% off jacket"
+    			}
+    		],
+    		"total":"$63.8404"
+    }`
 
 ## Architecture
 I'm using a layered architecture, where each layer strictly depends on layer below it only with the exception of the infrastructure layer; All layers have a dependency on the infrastructure layer services (to provide Logging for example) but all the dependencies are upon interfaces to allow substituting implementations of the infrastructure without touching neither Application nor the domain layer.
@@ -48,10 +52,22 @@ Please note that the only file that is not following this architecture is `boots
 
 ## What I'm not happy about (could be improved with more time)
 1. Using plain old `Exception` class for exceptions, Usually I would create business specific exceptions.
-2. I tried to make Unit tests to cover as much important details as possible, but it's not 100% coverage (no unit tests for in memory repositories for example)
+2. I tried to make Unit tests to cover as much important details as possible, but it's not 100% coverage (no unit tests for in memory repositories for example). Also I would prefer to use an object builder instead of object mother to keep tests simpler and more DRY.
 3. There is no framework (full or in parts) (no configuration, no routing, etc...)
 4. There is no logging/monitoring. This is why from implementation side there seems to be no dependency from the *Domain layer* to the *Infrastructure* as there are no Infrastructure services.
 5. The use of a DTO assembler could have help decouple the DTO completely from the domain objects.
+
+## Use-case (RestAPI)
+1. The client sends a `POST` HTTP request with JSON body to the endpoint `/cart` with fields `products:array` and `currency:string`.
+	1. If the JSON is malformed and error is raised and use-case ends.
+	2. If the JSON doesn't contain an array of product names and error is raised and use-case ends.
+	3. If any of the supplied product names are not found, an error is raised and use-case ends.
+	4. If the supplied currency code is malformed or not found, an error is raised and use-case ends.
+2. The system responds with the cart information as JSON in the response body.
+
+### Data Flow (RestAPI example)
+
+![Data diagram](/data.png)
 
 ## Implementation details
 
@@ -114,6 +130,3 @@ Please note that the only file that is not following this architecture is `boots
 ### Persistence
 I used in memory implementation for the mocking persistence for simplicity and the lack of a requirement to use a fully fledged database.
 
-### Data Flow (RestAPI example)
-
-![Data diagram](/data.png)
